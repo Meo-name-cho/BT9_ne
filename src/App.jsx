@@ -1,104 +1,87 @@
+import React, { useEffect, useMemo } from 'react';
+import { sortBy } from 'lodash';
+import CountrySelector from './components/CountrySelector';
+import { getCountries, getReportByCountry } from './components/apis';
+import Summary from './components/Summary';
+import Highlight from './components/Highlight';
+import { Container, Typography } from '@material-ui/core';
+import '@fontsource/roboto';
+import moment from 'moment';
+import 'moment/locale/vi';
 
-import React, { useReducer } from 'react';
-import './App.scss';
-// import HomePage from './pages/HomePage'
+moment.locale('vi');
 
-const reducer = (state, action) => {
-  switch (action) {
-    case 'Tang':
-      return state + 1;
-    case 'Giam':
-      return state - 1;
-    case 'XOA_TAT_CA':
-      return 0;
-    default:
-      return state;
-  }
-}
+const App = () => {
+  const [countries, setCountries] = React.useState([]);
+  const [selectedCountryId, setSelectedCountryId] = React.useState('');
+  const [report, setReport] = React.useState([]);
 
-const reducer2 = (state, action) => {
-  switch (action.type) {
-    case 'GAN_GIA_TRI':
-      return action.data;
-    default:
-      return state;
-  }
-}
-
-const initState = {
-  loading: false,
-  data: [],
-  error: null
-}
-const userReducer = (state, action) => {
-  switch (action.type) {
-    case 'GET_USER_REQUESRT':
-      return {
-        ...state,
-        loading: true,
-      }
-    case 'GET_USER_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        data: action.data
-      }
-    case 'GET_USER_ERROR':
-      return {
-        ...state,
-        data: [],
-        error: action.data,
-      }
-    default:
-  }
-}
-
-function App() {
-  const [count, dispatch] = useReducer(reducer, 0)
-  const [count2, dispatch2] = useReducer(reducer2, 0)
-  const [user, userDispatch] = useReducer(userReducer, initState)
-
-  const getUser = () => {
-    userDispatch({
-      type: 'GET_USER_REQUESRT',
+  useEffect(() => {
+    getCountries().then((res) => {
+      const { data } = res;
+      const countries = sortBy(data, 'Country');
+      setCountries(countries);
+      setSelectedCountryId('vn');
     });
-    setTimeout(() => {
-      fetch('https://reqres.in/api/users')
-        .then(res => res.json())
-        .then(res => {
-          userDispatch({
-            type: 'GET_USER_SUCCESS',
-            data: res
-          });
-        })
-        .catch(err => {
-          userDispatch({
-            type: 'GET_USER_ERROR',
-            data: err
-          });
+  }, []);
 
-        })
-    }, 2000);
+  const handleOnChange = React.useCallback((e) => {
+    setSelectedCountryId(e.target.value);
+  }, []);
 
+  useEffect(() => {
+    if (selectedCountryId) {
+      const selectedCountry = countries.find(
+        (country) => country.ISO2 === selectedCountryId.toUpperCase()
+      );
+      getReportByCountry(selectedCountry.Slug).then((res) => {
+        console.log('getReportByCountry', { res });
+        // remove last item = current date
+        res.data.pop();
+        setReport(res.data);
+      });
+    }
+  }, [selectedCountryId, countries]);
 
-  }
+  const summary = useMemo(() => {
+    if (report && report.length) {
+      const latestData = report[report.length - 1];
+      return [
+        {
+          title: 'Số ca nhiễm',
+          count: latestData.Confirmed,
+          type: 'confirmed',
+        },
+        {
+          title: 'Khỏi',
+          count: latestData.Recovered,
+          type: 'recovered',
+        },
+        {
+          title: 'Tử vong',
+          count: latestData.Deaths,
+          type: 'death',
+        },
+      ];
+    }
+    return [];
+  }, [report]);
+
   return (
-    <div>
-      <button onClick={getUser} >GET USER</button>
-      {user.loading ? <p>loading...</p> : <p>{JSON.stringify(user)}</p>}
-
-      <p>count: {count}</p>
-      <button onClick={() => dispatch('Tang')}>Tang</button>
-      <button onClick={() => dispatch('Giam')}>Giam</button>
-      <button onClick={() => dispatch('XOA_TAT_CA')}> Xoa het du lieu</button>
-
-      <p>Count2: {count2}</p>
-      <button onClick={() => dispatch2({
-        type: 'GAN_GIA_TRI',
-        data: 10
-      })}>Gan gia tri</button>
-    </div>
+    <Container style={{ marginTop: 20 }}>
+      <Typography variant='h2' component='h2'>
+        Số liệu COVID-19
+      </Typography>
+      <Typography>{moment().format('LLL')}</Typography>
+      <CountrySelector
+        handleOnChange={handleOnChange}
+        countries={countries}
+        value={selectedCountryId}
+      />
+      <Highlight summary={summary} />
+      <Summary countryId={selectedCountryId} report={report} />
+    </Container>
   );
-}
+};
 
 export default App;
