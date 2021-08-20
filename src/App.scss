@@ -1,0 +1,315 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  
+  
+.App {
+    text-align: center;
+    width:100%;
+    &__container{
+      display: block;
+      width: 80%;
+      margin: auto;
+    }
+    &__box1{
+      width: 90%;
+      display: flex;
+      margin: auto;
+      height: 120px;
+      &--taks1{
+        width: 50%;
+        margin-right: 5%;
+      }
+      &--taks2{
+        width: 50%;
+      }
+    }
+
+    &__box2{
+      width: 90%;
+      display: flex;
+      margin: auto;
+      height: 120px;
+
+      &--taks3{
+        width: 50%;
+        margin-right: 5%;
+
+      }
+      &--taks4{
+        width: 50%;
+      }
+    }
+    form{
+      border: 2px solid black;
+      height:100%;
+      border-radius: 15px;
+      width: 50%;
+
+    }
+    input{
+      width: 100%;
+      height: 30%;
+      border-radius: 5px;
+      outline: none;
+      -webkit-transition: 0.5s;
+      transition: 1s;
+      font-size: 17px;
+      &:focus{
+        border: 3px solid #58257b;
+        font-size: 20px;
+      }
+    }
+    
+    h4,h2{
+      text-align: left;
+    }
+    h2{
+      margin-bottom: 0;
+    margin-left: 5%;
+    }
+    &__box3{
+      width: 90%;
+      height: 200px;
+      margin: auto;
+      &--taks5{
+        textarea{
+          width: 100%;
+          height: 80px;
+          border-radius: 5px;
+          border: 2px solid black;
+          outline: none;
+          -webkit-transition: 1s;
+          transition: 1s;
+          font-size: 17px;
+          &:focus{
+            border: 3px solid #58257b;
+            font-size: 20px;
+            
+          }
+        }
+      
+        h4{
+          text-align: left;
+          text-align: left;
+        }
+    
+      }
+    }
+    button{
+      float: right;
+      width: 100px;
+      height: 50px;
+      margin-top: 1%;
+      background-color: darkblue ;
+      color: white;
+      font-size: 25px;
+      border-radius: 10px;
+    }
+    
+    &__container2 {
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 5%;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: 2px solid black;
+      border-radius:10px ;
+       h2 {
+        font-size: 26px;
+        margin: 20px 0;
+        text-align: left;
+      }
+
+    }
+    
+   
+    
+    &__responsive {
+      li {
+        border-radius: 3px;
+        padding: 15px 15px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        background-color: papayawhip;
+      }
+      .table{
+         &__roll {
+                 
+                  font-size: 30px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.03em;
+                }
+        &__column{
+          background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+        font-size: 20px;
+        }
+        &__taks1 {
+        flex-basis: 10%;
+        text-align: left;
+        }
+        &__taks2{
+          flex-basis: 10%;
+        }
+        &__taks3{
+          flex-basis: 10%;
+        }
+        &__taks4{
+          flex-basis: 15%;
+        } 
+        &__taks5{
+          flex-basis: 15%;
+        } 
+        &__taks6{
+          flex-basis: 15%;
+          .edit{
+           background-color: blue;
+            cursor: pointer;
+
+          }
+          .delete{
+            background-color: red;
+            cursor: pointer;
+
+          }
+        }
+
+
+      }
+      
+}
+.Go_back{
+  width: 150px;
+  height: 50px;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+}
+.Add__USer{
+  width: 150px;
+  height: 50px;
+  background-color: royalblue;
+  color: white;
+  margin: 0 5% 0 0;
+  cursor: pointer;
+}
+
+  
+  @media all and (max-width: 767px) {
+    .table-header {
+      display: none;
+    }
+    .table-row{
+      
+    }
+    li {
+      display: inline-block;
+    }
+    .col {
+      
+      flex-basis: 100%;
+      
+    }
+    .App__responsive .table__taks1 {
+      // flex-basis: 10%;
+      text-align: center;
+  }
+    .col {
+      display: flex;
+      padding: 10px 0;
+      &:before {
+        color: #6C7A89;
+        padding-right: 10px;
+        content: attr(data-label);
+        flex-basis: 50%;
+        text-align: right;
+      }
+    }
+    .App__responsive .table__taks6 .edit,.delete {
+      float: none;
+  }
+    .Add__USer {
+      margin: 0 28% 0 0;
+    
+  }
+  .App__container2 h2 {
+    
+    text-align: center;
+  }
+
+  .App__container {
+    width: 95%;
+}
+
+  .Go_back {
+    width: 115px;
+  }
+  .App{
+      &__box1 {
+          width: 90%;
+          display: block;
+         height: 150px;
+         &--taks1,&--taks2{
+           width: 100%;
+        
+         }
+      }
+      &__box2 {
+        width: 90%;
+        display: block;
+       height: 150px;
+       &--taks3,&--taks4{
+        width: 100%;
+ 
+      }
+       
+      }
+  
+    }
+  }
+}
+
+@media all and (min-width: 767px) and (max-width:1023px){
+  .App__responsive .table__column {
+  
+    font-size: 16px;
+}
+.App__responsive .table__roll {
+  font-size: 18px;
+ 
+}
+.App__responsive .table__taks2 {
+  flex-basis: 30%;
+}
+.App button {
+
+  width: 135px;
+  height: 50px;
+  font-size: 18px;
+  
+}
+// .App button {
+//   width: 141px;
+//   height: 50px;
+//   font-size: 18px;
+// }
+.App form {
+  border: 2px solid black;
+  height: 100%;
+  border-radius: 15px;
+  width: 95%;
+}
+}

@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": 2,
+      "name": "Bat Man",
+      "phone": 113,
+      "adress": "HCM",
+      "email": "thinh@gmail.com",
+      "decretion": "good"
+    },
+    {
+      "id": 3,
+      "name": "Iron Man",
+      "phone": 114,
+      "adress": "Soc Trang",
+      "email": "thinh@gmail.com",
+      "decretion": "good"
+    },
+    {
+      "id": 4,
+      "name": "Hulk",
+      "phone": 115,
+      "adress": "HCM",
+      "email": "thinh@gmail.com",
+      "decretion": "good"
+    },
+    {
+      "id": 5,
+      "name": "Wonder",
+      "phone": 123,
+      "adress": "HCM",
+      "email": "thinh@gmail.com",
+      "decretion": "good"
+    },
+    {
+      "name": "Thor",
+      "email": "ngu@123.com",
+      "phone": 134,
+      "adress": "nha trang",
+      "decretion": "anh thich em",
+      "id": 6
+    },
+    {
+      "name": "Thinh",
+      "email": "sieunhangao246810@gmail.com",
+      "phone": 154,
+      "adress": "Ninh Binh ",
+      "decretion": "somthing",
+      "id": 7
+    }
+  ]
+}
