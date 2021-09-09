@@ -1,9 +1,8 @@
 import "./App.scss";
 
-import { Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
-import Home from "./pages/Home";
-import AddUser from "./pages/AddUser";
+import Home from "./pages/Home.jsx"
 import EditUser from "./pages/EditUser";
 
 function App() {
@@ -12,13 +11,14 @@ function App() {
 
   return (
     <div className="App">
+      
+      <Router>
+        <Home></Home>
+        <Switch>
+          <Route exact path="/editUser/:id" component={EditUser}></Route>
+        </Switch>
+      </Router>
 
-      <Switch>       
-        <Route exact path="/" component={Home}></Route>
-        <Route exact path="/addUser" component={AddUser}></Route>
-        <Route exact path="/editUser/:id" component={EditUser}></Route>
-
-      </Switch>
 
     </div>
   );

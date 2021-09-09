@@ -1,28 +1,25 @@
+
 import axios from "axios";
 import * as types from './actionType'
 
-const url="http://localhost:3000/users"
+const url="http://localhost:3001/users"
 const getUsers = (users) => ({
   type: types.GET_USERS,
   payload: users
 });
+const getMess = (users) => ({
+  type: types.GET_MESSAGES,
+  payload: users
+});
 
-const userDelete=()=>({
-  type:types.DELETE_USERS
-}) 
-
-const userAdded=()=>({
-  type:types.ADD_USERS
-})
 const getUSer=(user)=>({
   type:types.GET_SINGLE_USER,
   payload:user,
 })
-const userUpdated=()=>({
-  type:types.UPDATE_USERS
-})
-// Define hanh dong se gui len cho reducer tiep nhan
-// not Pure object: khong phai object nguyen thuy -> moi phai dung middleware de xu ly: redux-thunk
+// const addMessages=()=>({
+//   type:types.ADD_MESSAGES
+// })
+
 export const loadUsers = () => {
   return function (dispatch) {
     axios
@@ -35,26 +32,27 @@ export const loadUsers = () => {
   };
 };
 
-export const deleteUsers = (id) => {
+export const loadUsers2 = (id) => {
   return function (dispatch) {
     axios
-      .delete(`${url}/${id}`)
+      .get(`${url}/${id}/List_messages`)
       .then((res) => {
         console.log("res", res);
-        dispatch(userDelete());
-        dispatch(loadUsers());
+        dispatch(getMess(res.data));
       })
       .catch((error) => console.log(error));
   };
 };
-export const AddUsers = (user) => {
+
+export const AddUsers = (user,id) => {
   return function (dispatch) {
     axios
-      .post(`${url}`,user)
+      .post(`${url}/${id}/List_messages`,user)
       .then((res) => {
         console.log("res", res);
-        dispatch(userAdded());
-        dispatch(loadUsers());
+        // dispatch(userAdded());
+        dispatch(loadUsers2(id));
+      
       })
       .catch((error) => console.log(error));
   };
@@ -66,21 +64,9 @@ export const getSingUsers = (id) => {
       .then((res) => {
         console.log("res", res);
         dispatch(getUSer(res.data));
+        
     
       })
       .catch((error) => console.log(error));
   };
-};
-
-export const updateUsers = (user,id) => {
-  return function (dispatch) {
-    axios
-      .put(`${url}/${id}`,user)
-      .then((res) => {
-        console.log("res", res);
-        dispatch(userUpdated());
-    
-      })
-      .catch((error) => console.log(error));
-  };
-};
+};  

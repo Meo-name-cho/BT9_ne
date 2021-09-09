@@ -1,105 +1,139 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom"
-import { updateUsers, getSingUsers } from '../redux/actions';
+import {useParams} from "react-router-dom"
+import { AddUsers, loadUsers2 } from '../redux/actions';
+import './chat.css'
 
+
+import './chat.css'
 
 function EditUser() {
 
     let dispatch = useDispatch();
-
-
+    const { listmes } = useSelector((state) => state.data)
+    console.log("Lits cua messages",listmes)
+    let {id}=useParams()
+    // let history = useHistory();
+  
+  
     const [state, setState] = useState({
         name: "",
-        email: "",
-        phone: "",
-        adress: "",
-        decretion: "",
+     
     });
-    let history = useHistory();
-    let { id } = useParams();
-    const { name, email, phone, adress, decretion } = state;
-    const { user } = useSelector((state) => state.data)
-
-    useEffect(() => {
-        dispatch(getSingUsers(id))
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            setState({
-                ...user
-            })
-        }
-    }, [user]);
-
+  
+    const { name } = state;
+  
     const handleInputChange = (e) => {
         let { name, value } = e.target;
         setState({
             ...state,
-            [name]: value
+            [name]: value,
         });
     }
-
+  
     const [error, setError] = useState("");
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!name || !adress || !email || !phone || !decretion) {
-            setError("Hãy nhập thông tin, pleaseeeeee");
+        if (!name) {
+            return;
         }
         else {
-            dispatch(updateUsers(state, id));
-            history.push("/");
+            dispatch(AddUsers(state,id));
+            
+            // history.push("");
             setError("")
         }
     }
-
+    useEffect(() => {
+        dispatch(loadUsers2(id));
+    }, [id]);
+  
     return (
-        <div>
-
-
-            {error && <h3 style={{ color: "red" }}>{error}</h3>}
-            <form action="" className="App__container" onSubmit={handleSubmit}>
-
-                <h2>Edit User</h2>
-                <div className="App__box1">
-                    <div className="App__box1--taks1">
-                        <h4>full name</h4>
-                        <input type="text" value={name || ""} 
-                        onChange={handleInputChange} name="name"  />
-                    </div>
-                    <div className="App__box1--taks2">
-                        <h4>Email</h4>
-                        <input type="Email" onChange={handleInputChange}
-                            value={email || ""} name="email"  />
-                    </div>
+      <div>
+  
+  
+        <main>
+          <header>
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="" />
+            <div>
+              <h2>Chat with Vincent Porter</h2>
+              <h3>already 1902 messages</h3>
+            </div>
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="" />
+          </header>
+          <ul id="chat">
+            <li className="you">
+              <div className="entete">
+                <span className="status green" />
+                <h2>Vincent</h2>
+                <h3>10:12AM, Today</h3>
+              </div>
+              <div className="triangle" />
+              <div className="message">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              </div>
+            </li>
+            <li className="me">
+              <div className="entete">
+                <h3>10:12AM, Today</h3>
+                <h2>Vincent</h2>
+                <span className="status blue" />
+              </div>
+              <div className="triangle" />
+              <div className="message">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              </div>
+            </li>
+          
+            <li className="you">
+              <div className="entete">
+                <span className="status green" />
+                <h2>Vincent</h2>
+                <h3>10:12AM, Today</h3>
+              </div>
+              <div className="triangle" />
+              <div className="message">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              </div>
+            </li>
+            <li className="me">
+              <div className="entete">
+                <h3>10:12AM, Today</h3>
+                <h2>Vincent</h2>
+                <span className="status blue" />
+              </div>
+              <div className="triangle" />
+              <div className="message">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              </div>
+            </li>
+            {listmes && listmes.map((use) => (
+              <li className="me">
+                <div className="entete">
+                  <h3>10:12AM, Today</h3>
+                  <h2>Vincent</h2>
+                  <span className="status blue" />
                 </div>
+                <div className="triangle" />
+                <div className="message">
+                  {use.name}
+                </div>
+              </li>
+            ))}
 
-                <div className="App__box2">
-                    <div className="App__box2--taks3">
-                        <h4>Phone</h4>
-                        <input type="number" onChange={handleInputChange}
-                            value={phone || ""} name="phone"  />
-                    </div>
-                    <div className="App__box2--taks4">
-                        <h4>Location</h4>
-                        <input type="text" onChange={handleInputChange}
-                            value={adress || ""} name="adress"  />
-                    </div>
-                </div>
-                <div className="App__box3">
-                    <div className="App__box3--taks5">
-                        <h4>About me</h4>
-                        <textarea type="text" onChange={handleInputChange}
-                            value={decretion || ""} name="decretion" />
-                    </div>
-                    <button type="submit" onClick={() => history.push("/")}
-                        className="Go_back">Go Back </button>
-                    <button type="submit" onChange={handleInputChange} >EDIT</button>
-                </div>
-            </form>
-        </div>
+  
+          </ul>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <textarea className="edittex" type="text" onChange={handleInputChange}
+                value={name} name="name" placeholder="Somothing" />
+              <button type="submit" onChange={handleInputChange} >Send</button>
+            </div>
+  
+          </form>
+        </main>
+      </div>
+  
     )
-}
-
+  }
 export default EditUser
